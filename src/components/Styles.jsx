@@ -1,10 +1,5 @@
 import styled from 'styled-components';
 
-export const TDStyled = styled.td`
-padding: 20px;
-border: 3px solid black;
-`;
-
 export const FormStyled = styled.form`
 display: flex;
 flex-direction: column;
@@ -30,7 +25,11 @@ margin-bottom: 15px;
 export const TableStyled = styled.table`
 border-collapse: collapse;
 border: 2px solid black;
-padding-left: 10px;
+`;
+
+export const TDStyled = styled.td`
+padding: 20px;
+border: 3px solid black;
 `;
 
 export const TRStyled = styled.tr`

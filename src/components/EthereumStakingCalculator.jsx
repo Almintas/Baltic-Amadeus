@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { CSVLink } from 'react-csv';
-import { FormStyled, InputStyled, TDStyled, DivStyledCSV, TRStyled, ButtonStyled, TableStyled, THStyled, DivStyledTable } from './Styles';
+import { FormStyled, InputStyled, TDStyled, DivStyledCSV, TRStyled, 
+    ButtonStyled, TableStyled, THStyled, DivStyledTable } from './Styles';
 
 export const EthereumStakingCalculator = () => {
     const [investment, setInvestment] = useState('');
@@ -8,6 +9,7 @@ export const EthereumStakingCalculator = () => {
     const [duration, setDuration] = useState('');
     const [reinvest, setReinvest] = useState(true);
     const [time, setTime] = useState('');
+    const [rewardDay, setRewardDay] = useState('');
     const [schedule, setSchedule] = useState([]);
 
     const handleSubmit = (e) => {
@@ -19,7 +21,7 @@ export const EthereumStakingCalculator = () => {
         const updatedSchedule = [];
 
         for (let i = 0; i < duration; i++) {
-            const date = new Date(time);
+            const date = new Date(rewardDay);
             date.setMonth(date.getMonth() + i);
 
             if (date >= lowerRateDate) {
@@ -30,7 +32,8 @@ export const EthereumStakingCalculator = () => {
 
             updatedSchedule.push({
                 line: i + 1,
-                date: date.toLocaleDateString('default', { month: 'numeric', day: 'numeric', year: 'numeric' }),
+                date: date.toLocaleDateString('default', {
+                     month: 'numeric', day: 'numeric', year: 'numeric' }),
                 investment: investmentAmount,
                 reward: reward,
                 total: investmentAmount + reward,
@@ -68,26 +71,36 @@ export const EthereumStakingCalculator = () => {
                 <FormStyled onSubmit={handleSubmit}>
                     <label>
                         Initial Investment:
-                        <InputStyled type="number" placeholder='Amount' required value={investment}
-                            onChange={e => setInvestment(Number(e.target.value))} />
+                        <InputStyled type="number" placeholder='Amount' 
+                        required value={investment}
+                        onChange={e => setInvestment(Number(e.target.value))} />
                     </label>
                     <label>
                         Yearly Staking Reward:
-                        <InputStyled type="number" placeholder='%' required value={rate}
-                            onChange={e => setRate(Number(e.target.value))} />
+                        <InputStyled type="number" placeholder='%' 
+                        required value={rate}
+                        onChange={e => setRate(Number(e.target.value))} />
                     </label>
                     <label>
                         Duration (months):
-                        <InputStyled type="number" placeholder='Number of months' required value={duration}
-                            onChange={e => setDuration(e.target.value)} />
+                        <InputStyled type="number" placeholder='Number of months' 
+                        required value={duration}
+                        onChange={e => setDuration(e.target.value)} />
                     </label>
                     <label>
                         Start Date:
-                        <InputStyled type='date' required value={time} onChange={e => setTime(e.target.value)} />
+                        <InputStyled type='date' required value={time} 
+                        onChange={e => setTime(e.target.value)} />
+                    </label>
+                    <label>
+                        Reward Day:
+                        <InputStyled type='date' required value={rewardDay} 
+                        onChange={e => setRewardDay(e.target.value)} />
                     </label>
                     <label>
                         Reinvest Staking Reward:
-                        <InputStyled type="checkbox" checked={reinvest} onChange={e => setReinvest(Number(e.target.checked))} />
+                        <InputStyled type="checkbox" checked={reinvest} 
+                        onChange={e => setReinvest(Number(e.target.checked))} />
                     </label>
                     <ButtonStyled type="submit">Calculate</ButtonStyled>
                 </FormStyled>
@@ -119,8 +132,12 @@ export const EthereumStakingCalculator = () => {
                 </DivStyledTable>
             </div>
             <DivStyledCSV>
-                <CSVLink data={schedule} headers={headers} filename='Ethereum.csv' separator={';'}>Download CSV file</CSVLink>
+                <CSVLink data={schedule} headers={headers} 
+                filename='Ethereum.csv' separator={';'}>
+                    Download CSV file</CSVLink>
             </DivStyledCSV>
         </>
     )
 };
+
+export default EthereumStakingCalculator;
